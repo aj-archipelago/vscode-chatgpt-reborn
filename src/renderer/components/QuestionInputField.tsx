@@ -369,7 +369,7 @@ export default ({
                   className={`flex gap-1 items-center py-0.5 px-1 whitespace-nowrap hover:underline focus-within:underline`}
                   data-tooltip-id="more-actions-tooltip"
                   data-tooltip-content="Report a bug or suggest a feature in GitHub"
-                  href="https://github.com/Christopher-Hayes/vscode-chatgpt-reborn/issues/new/choose"
+                  href="https://github.com/ALJAZEERAPLUS/knuth-vsc/issues/new/choose"
                   target="_blank"
                 >
                   <Icon icon="help" className="w-3 h-3" />

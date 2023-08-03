@@ -30,6 +30,7 @@ module.exports = {
                     [
                         path.resolve(__dirname, 'src/renderer'), // React UI code
                         path.resolve(__dirname, 'node_modules/react-tooltip'), // react-tooltip
+                        path.resolve(__dirname, 'node_modules/highlight.js'), // highlight.js
                         path.resolve(__dirname, 'styles'), // custom styles
                     ],
                 use: [

@@ -129,7 +129,7 @@ async function fetchSSE(url: RequestInfo | URL, options: {
 // src/chatgpt-api.ts
 var CHATGPT_MODEL = "gpt-3.5-turbo";
 var USER_LABEL_DEFAULT = "User";
-var ASSISTANT_LABEL_DEFAULT = "ChatGPT";
+var ASSISTANT_LABEL_DEFAULT = "Knuth";
 class ChatGPTAPI {
   _apiKey: string;
   _apiBaseUrl: string;

@@ -12,7 +12,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	const provider = new ChatGptViewProvider(context);
 
 	const view = vscode.window.registerWebviewViewProvider(
-		"vscode-chatgpt.view",
+		"knuth-vsc.view",
 		provider,
 		{
 			webviewOptions: {
@@ -21,7 +21,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 	);
 
-	const freeText = vscode.commands.registerCommand("vscode-chatgpt.freeText", async () => {
+	const freeText = vscode.commands.registerCommand("knuth-vsc.freeText", async () => {
 		const value = await vscode.window.showInputBox({
 			prompt: "Ask anything...",
 		});
@@ -41,33 +41,33 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	const resetThread = vscode.commands.registerCommand("vscode-chatgpt.clearConversation", async () => {
+	const resetThread = vscode.commands.registerCommand("knuth-vsc.clearConversation", async () => {
 		provider?.sendMessage({ type: 'clearConversation' }, true);
 	});
 
-	const exportConversation = vscode.commands.registerCommand("vscode-chatgpt.exportConversation", async () => {
+	const exportConversation = vscode.commands.registerCommand("knuth-vsc.exportConversation", async () => {
 		provider?.sendMessage({ type: 'exportConversation' }, true);
 	});
 
-	const clearSession = vscode.commands.registerCommand("vscode-chatgpt.clearSession", () => {
-		context.globalState.update("chatgpt-gpt3-apiKey", null);
+	const clearSession = vscode.commands.registerCommand("knuth-vsc.clearSession", () => {
+		context.globalState.update("knuth-gpt3-apiKey", null);
 	});
 
 	const configChanged = vscode.workspace.onDidChangeConfiguration(e => {
-		if (e.affectsConfiguration('chatgpt.response.showNotification')) {
-			provider.subscribeToResponse = vscode.workspace.getConfiguration("chatgpt").get("response.showNotification") || false;
+		if (e.affectsConfiguration('knuth-vsc.response.showNotification')) {
+			provider.subscribeToResponse = vscode.workspace.getConfiguration("knuth-vsc").get("response.showNotification") || false;
 		}
 
-		if (e.affectsConfiguration('chatgpt.gpt3.model')) {
-			provider.model = vscode.workspace.getConfiguration("chatgpt").get("gpt3.model");
+		if (e.affectsConfiguration('knuth-vsc.gpt3.model')) {
+			provider.model = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.model");
 		}
 
-		if (e.affectsConfiguration('chatgpt.promptPrefix') || e.affectsConfiguration('chatgpt.gpt3.generateCode-enabled') || e.affectsConfiguration('chatgpt.gpt3.model')) {
+		if (e.affectsConfiguration('knuth-vsc.promptPrefix') || e.affectsConfiguration('knuth-vsc.gpt3.generateCode-enabled') || e.affectsConfiguration('knuth-vsc.gpt3.model')) {
 			setContext();
 		}
 	});
 
-	const adhocCommand = vscode.commands.registerCommand("vscode-chatgpt.adhoc", async () => {
+	const adhocCommand = vscode.commands.registerCommand("knuth-vsc.adhoc", async () => {
 		const editor = vscode.window.activeTextEditor;
 
 		if (!editor) {
@@ -92,7 +92,7 @@ export async function activate(context: vscode.ExtensionContext) {
 					}
 
 					adhocCommandPrefix = value.trim() || '';
-					context.globalState.update("chatgpt-adhoc-prompt", adhocCommandPrefix);
+					context.globalState.update("knuth-adhoc-prompt", adhocCommandPrefix);
 				});
 
 			if (!dismissed && adhocCommandPrefix?.length > 0) {
@@ -112,7 +112,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
-	const generateCodeCommand = vscode.commands.registerCommand(`vscode-chatgpt.generateCode`, () => {
+	const generateCodeCommand = vscode.commands.registerCommand(`knuth-vsc.generateCode`, () => {
 		const editor = vscode.window.activeTextEditor;
 
 		if (!editor) {
@@ -136,8 +136,8 @@ export async function activate(context: vscode.ExtensionContext) {
 	});
 
 	// Skip AdHoc - as it was registered earlier
-	const registeredCommands = menuCommands.filter(command => command !== "adhoc" && command !== "generateCode").map((command) => vscode.commands.registerCommand(`vscode-chatgpt.${command}`, () => {
-		const prompt = vscode.workspace.getConfiguration("chatgpt").get<string>(`promptPrefix.${command}`);
+	const registeredCommands = menuCommands.filter(command => command !== "adhoc" && command !== "generateCode").map((command) => vscode.commands.registerCommand(`knuth-vsc.${command}`, () => {
+		const prompt = vscode.workspace.getConfiguration("knuth-vsc").get<string>(`promptPrefix.${command}`);
 		const editor = vscode.window.activeTextEditor;
 
 		if (!editor) {
@@ -166,13 +166,13 @@ export async function activate(context: vscode.ExtensionContext) {
 	const setContext = () => {
 		menuCommands.forEach(command => {
 			if (command === "generateCode") {
-				let generateCodeEnabled = !!vscode.workspace.getConfiguration("chatgpt").get<boolean>("gpt3.generateCode-enabled");
-				const modelName = vscode.workspace.getConfiguration("chatgpt").get("gpt3.model") as string;
-				const method = vscode.workspace.getConfiguration("chatgpt").get("method") as string;
+				let generateCodeEnabled = !!vscode.workspace.getConfiguration("knuth-vsc").get<boolean>("gpt3.generateCode-enabled");
+				const modelName = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.model") as string;
+				const method = vscode.workspace.getConfiguration("knuth-vsc").get("method") as string;
 				generateCodeEnabled = generateCodeEnabled && method === "GPT3 OpenAI API Key" && modelName.startsWith("code-");
 				vscode.commands.executeCommand('setContext', "generateCode-enabled", generateCodeEnabled);
 			} else {
-				const enabled = !!vscode.workspace.getConfiguration("chatgpt.promptPrefix").get<boolean>(`${command}-enabled`);
+				const enabled = !!vscode.workspace.getConfiguration("knuth-vsc.promptPrefix").get<boolean>(`${command}-enabled`);
 				vscode.commands.executeCommand('setContext', `${command}-enabled`, enabled);
 			}
 		});

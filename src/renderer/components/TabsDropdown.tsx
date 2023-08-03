@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useAppDispatch } from "../hooks";
 import { removeConversation } from "../store/conversation";
 import { Conversation } from "../types";
@@ -27,24 +27,23 @@ const Tabs: React.FC<Props> = ({
   className,
 }) => {
   const dispatch = useAppDispatch();
-  const selectedTabRef = React.useRef<HTMLButtonElement>(null);
-  const selectRef = React.useRef<HTMLButtonElement>(null);
-  const parentRef = React.useRef<HTMLDivElement>(null);
-  const [showOptions, setShowOptions] = React.useState(false);
+  const selectedTabRef = useRef<HTMLButtonElement>(null);
+  const selectRef = useRef<HTMLButtonElement>(null);
+  const parentRef = useRef<HTMLDivElement>(null);
+  const [showOptions, setShowOptions] = useState(false);
 
-  const handleToggleOptions = React.useCallback(() => {
+  const handleToggleOptions = useCallback(() => {
     setShowOptions((prevShowOptions) => !prevShowOptions);
 
     // put focus inside the select option list
-    // hard coded timeout to wait for the dropdown to open
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       if (selectedTabRef.current) {
         selectedTabRef.current.focus();
       }
-    }, 200);
+    });
   }, []);
 
-  const handleSelectChange = React.useCallback(
+  const handleSelectChange = useCallback(
     (selectedTab: Tab) => {
       if (selectedTab) {
         navigate(selectedTab.href);
@@ -54,6 +53,37 @@ const Tabs: React.FC<Props> = ({
     [navigate]
   );
 
+  const handleClose = useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+
+      if (conversationList.length === 1) {
+        createNewConversation();
+      } else {
+        navigate(
+          `/chat/${encodeURI(
+            conversationList[0].id === currentConversation.id
+              ? conversationList[1].id
+              : conversationList[0].id
+          )}`
+        );
+      }
+
+      dispatch(removeConversation(currentConversation.id));
+    },
+    [
+      conversationList,
+      currentConversation.id,
+      createNewConversation,
+      navigate,
+      dispatch,
+    ]
+  );
+
+  const selectedTabName = tabs.find(
+    (tab) => currentConversation.title === tab.name
+  )?.name;
+
   return (
     <div className={`relative ${className}`} ref={parentRef}>
       <button
@@ -62,38 +92,23 @@ const Tabs: React.FC<Props> = ({
         ref={selectRef}
       >
         <span className="pl-1 flex-grow user-select-none text-start">
-          {tabs.find((tab) => currentConversation.title === tab.name)?.name}
+          {selectedTabName}
         </span>
-        {/* down caret */}
         <Icon icon="caret-down" className="w-6 h-6 p-1" />
-        <button
-          type="button"
+        <span
+          role="button"
+          tabIndex={0}
           className="block p-1 hover:text-white focus:outline-none hover:bg-opacity-40 hover:bg-red-900 focus:bg-red-900 rounded-md"
-          // Close the tab and remove it from the list
-          onClick={(e) => {
-            // Prevent the dropdown from opening
-            e.stopPropagation();
-
-            // navigate to the first tab
-            // if there's no more chats, create a new one
-            if (conversationList.length === 1) {
-              createNewConversation();
-            } else {
-              navigate(
-                `/chat/${encodeURI(
-                  conversationList[0].id === currentConversation.id
-                    ? conversationList[1].id
-                    : conversationList[0].id
-                )}`
-              );
+          onClick={handleClose}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleClose(e);
             }
-
-            // remove the tab from the list
-            dispatch(removeConversation(currentConversation.id));
           }}
         >
           <Icon icon="close" className="w-4 h-4" />
-        </button>
+        </span>
       </button>
       {showOptions && (
         <div

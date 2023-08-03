@@ -1,14 +1,14 @@
 {
-  "name": "chatgpt-reborn",
-  "publisher": "chris-hayes",
-  "displayName": "ChatGPT Reborn",
-  "icon": "images/ai-logo.jpg",
+  "name": "knuth-vsc",
+  "publisher": "aj-archipelago",
+  "displayName": "Knuth Visual Studio Code",
+  "icon": "images/labeeb-logo-en.png",
   "description": "Refactor, improve, and debug your code with GPT-4. This is a fork of the now discontinued vscode-chatgpt extension.",
-  "version": "3.18.1",
+  "version": "0.0.1",
   "aiKey": "",
   "license": "ISC",
   "repository": {
-    "url": "https://github.com/christopher-hayes/vscode-chatgpt-reborn"
+    "url": "https://github.com/ALJAZEERAPLUS/knuth-vsc"
   },
   "engines": {
     "vscode": "^1.70.0"
@@ -38,134 +38,134 @@
     "menus": {
       "editor/context": [
         {
-          "command": "vscode-chatgpt.generateCode",
-          "group": "chatGpt@1",
+          "command": "knuth-vsc.generateCode",
+          "group": "knuthVsc@1",
           "when": "editorHasSelection && generateCode-enabled"
         },
         {
-          "command": "vscode-chatgpt.addTests",
-          "group": "chatGpt@2",
+          "command": "knuth-vsc.addTests",
+          "group": "knuthVsc@2",
           "when": "editorHasSelection && addTests-enabled"
         },
         {
-          "command": "vscode-chatgpt.findProblems",
-          "group": "chatGpt@3",
+          "command": "knuth-vsc.findProblems",
+          "group": "knuthVsc@3",
           "when": "editorHasSelection && findProblems-enabled"
         },
         {
-          "command": "vscode-chatgpt.optimize",
-          "group": "chatGpt@4",
+          "command": "knuth-vsc.optimize",
+          "group": "knuthVsc@4",
           "when": "editorHasSelection && optimize-enabled"
         },
         {
-          "command": "vscode-chatgpt.explain",
-          "group": "chatGpt@5",
+          "command": "knuth-vsc.explain",
+          "group": "knuthVsc@5",
           "when": "editorHasSelection && explain-enabled"
         },
         {
-          "command": "vscode-chatgpt.addComments",
-          "group": "chatGpt@6",
+          "command": "knuth-vsc.addComments",
+          "group": "knuthVsc@6",
           "when": "editorHasSelection && addComments-enabled"
         },
         {
-          "command": "vscode-chatgpt.completeCode",
-          "group": "chatGpt@7",
+          "command": "knuth-vsc.completeCode",
+          "group": "knuthVsc@7",
           "when": "editorHasSelection && completeCode-enabled"
         },
         {
-          "command": "vscode-chatgpt.adhoc",
-          "group": "chatGpt@8",
+          "command": "knuth-vsc.adhoc",
+          "group": "knuthVsc@8",
           "when": "editorHasSelection && adhoc-enabled"
         },
         {
-          "command": "vscode-chatgpt.customPrompt1",
-          "group": "chatGpt@9",
+          "command": "knuth-vsc.customPrompt1",
+          "group": "knuthVsc@9",
           "when": "editorHasSelection && customPrompt1-enabled"
         },
         {
-          "command": "vscode-chatgpt.customPrompt2",
-          "group": "chatGpt@10",
+          "command": "knuth-vsc.customPrompt2",
+          "group": "knuthVsc@10",
           "when": "editorHasSelection && customPrompt2-enabled"
         },
         {
-          "command": "vscode-chatgpt.customPrompt3",
-          "group": "chatGpt@11",
+          "command": "knuth-vsc.customPrompt3",
+          "group": "knuthVsc@11",
           "when": "editorHasSelection && customPrompt3-enabled"
         },
         {
-          "command": "vscode-chatgpt.customPrompt4",
-          "group": "chatGpt@12",
+          "command": "knuth-vsc.customPrompt4",
+          "group": "knuthVsc@12",
           "when": "editorHasSelection && customPrompt4-enabled"
         },
         {
-          "command": "vscode-chatgpt.customPrompt5",
-          "group": "chatGpt@13",
+          "command": "knuth-vsc.customPrompt5",
+          "group": "knuthVsc@13",
           "when": "editorHasSelection && customPrompt5-enabled"
         },
         {
-          "command": "vscode-chatgpt.customPrompt6",
-          "group": "chatGpt@14",
+          "command": "knuth-vsc.customPrompt6",
+          "group": "knuthVsc@14",
           "when": "editorHasSelection && customPrompt6-enabled"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "vscode-chatgpt.generateCode",
+        "command": "knuth-vsc.generateCode",
         "key": "ctrl+shift+a",
         "mac": "cmd+shift+a",
         "when": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.addTests",
+        "command": "knuth-vsc.addTests",
         "key": "ctrl+k ctrl+shift+1",
         "mac": "cmd+k cmd+shift+1",
         "when": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.findProblems",
+        "command": "knuth-vsc.findProblems",
         "key": "ctrl+k ctrl+shift+2",
         "mac": "cmd+k cmd+shift+2",
         "when": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.optimize",
+        "command": "knuth-vsc.optimize",
         "key": "ctrl+k ctrl+shift+3",
         "mac": "cmd+k cmd+shift+3",
         "when": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.explain",
+        "command": "knuth-vsc.explain",
         "key": "ctrl+k ctrl+shift+4",
         "mac": "cmd+k cmd+shift+4",
         "when": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.addComments",
+        "command": "knuth-vsc.addComments",
         "key": "ctrl+k ctrl+shift+5",
         "mac": "cmd+k cmd+shift+5",
         "when": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.completeCode",
+        "command": "knuth-vsc.completeCode",
         "key": "ctrl+k ctrl+shift+6",
         "mac": "cmd+k cmd+shift+6",
         "when": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.adhoc",
+        "command": "knuth-vsc.adhoc",
         "key": "ctrl+k ctrl+shift+7",
         "mac": "cmd+k cmd+shift+7",
         "when": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.customPrompt1",
+        "command": "knuth-vsc.customPrompt1",
         "key": "ctrl+k ctrl+shift+8",
         "mac": "cmd+k cmd+shift+8",
         "when": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.customPrompt2",
+        "command": "knuth-vsc.customPrompt2",
         "key": "ctrl+k ctrl+shift+9",
         "mac": "cmd+k cmd+shift+9",
         "when": "editorHasSelection"
@@ -173,281 +173,281 @@
     ],
     "commands": [
       {
-        "command": "vscode-chatgpt.freeText",
-        "title": "ChatGPT: Ask anything"
+        "command": "knuth-vsc.freeText",
+        "title": "Knuth: Ask anything"
       },
       {
-        "command": "vscode-chatgpt.clearSession",
-        "title": "ChatGPT: Reset session"
+        "command": "knuth-vsc.clearSession",
+        "title": "Knuth: Reset session"
       },
       {
-        "command": "vscode-chatgpt.generateCode",
-        "title": "ChatGPT-Codex: Generate code",
+        "command": "knuth-vsc.generateCode",
+        "title": "Knuth-Codex: Generate code",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.addTests",
-        "title": "%vscode-chatgpt.addTests.title%",
+        "command": "knuth-vsc.addTests",
+        "title": "%knuth-vsc.addTests.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.findProblems",
-        "title": "%vscode-chatgpt.findProblems.title%",
+        "command": "knuth-vsc.findProblems",
+        "title": "%knuth-vsc.findProblems.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.optimize",
-        "title": "%vscode-chatgpt.optimize.title%",
+        "command": "knuth-vsc.optimize",
+        "title": "%knuth-vsc.optimize.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.explain",
-        "title": "%vscode-chatgpt.explain.title%",
+        "command": "knuth-vsc.explain",
+        "title": "%knuth-vsc.explain.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.addComments",
-        "title": "%vscode-chatgpt.addTests.title%",
+        "command": "knuth-vsc.addComments",
+        "title": "%knuth-vsc.addComments.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.completeCode",
-        "title": "%vscode-chatgpt.completeCode.title%",
+        "command": "knuth-vsc.completeCode",
+        "title": "%knuth-vsc.completeCode.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.adhoc",
-        "title": "%vscode-chatgpt.adhoc.title%",
+        "command": "knuth-vsc.adhoc",
+        "title": "%knuth-vsc.adhoc.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.customPrompt1",
-        "title": "%vscode-chatgpt.customPrompt1.title%",
+        "command": "knuth-vsc.customPrompt1",
+        "title": "%knuth-vsc.customPrompt1.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.customPrompt2",
-        "title": "%vscode-chatgpt.customPrompt2.title%",
+        "command": "knuth-vsc.customPrompt2",
+        "title": "%knuth-vsc.customPrompt2.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.customPrompt3",
-        "title": "%vscode-chatgpt.customPrompt3.title%",
+        "command": "knuth-vsc.customPrompt3",
+        "title": "%knuth-vsc.customPrompt3.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.customPrompt4",
-        "title": "%vscode-chatgpt.customPrompt4.title%",
+        "command": "knuth-vsc.customPrompt4",
+        "title": "%knuth-vsc.customPrompt4.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.customPrompt5",
-        "title": "%vscode-chatgpt.customPrompt5.title%",
+        "command": "knuth-vsc.customPrompt5",
+        "title": "%knuth-vsc.customPrompt5.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.customPrompt6",
-        "title": "%vscode-chatgpt.customPrompt6.title%",
+        "command": "knuth-vsc.customPrompt6",
+        "title": "%knuth-vsc.customPrompt6.title%",
         "enablement": "editorHasSelection"
       },
       {
-        "command": "vscode-chatgpt.clearConversation",
-        "title": "ChatGPT: Clear conversation"
+        "command": "knuth-vsc.clearConversation",
+        "title": "Knuth: Clear conversation"
       },
       {
-        "command": "vscode-chatgpt.exportConversation",
-        "title": "ChatGPT: Export conversation"
+        "command": "knuth-vsc.exportConversation",
+        "title": "Knuth: Export conversation"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "vscode-chatgpt-view-container",
-          "title": "ChatGPT",
-          "icon": "images/openai-logo.svg"
+          "id": "knuth-vsc-view-container",
+          "title": "Knuth",
+          "icon": "images/labeeb-logo.svg"
         }
       ]
     },
     "views": {
-      "vscode-chatgpt-view-container": [
+      "knuth-vsc-view-container": [
         {
           "type": "webview",
-          "id": "vscode-chatgpt.view",
+          "id": "knuth-vsc.view",
           "name": "Conversation window"
         }
       ]
     },
     "configuration": {
-      "title": "ChatGPT",
+      "title": "Knuth",
       "properties": {
-        "chatgpt.gpt3.generateCode-enabled": {
+        "knuth-vsc.gpt3.generateCode-enabled": {
           "type": "boolean",
           "default": true,
           "description": "Enable the code generation context menu item for the selected comment/code for Codex. Only available with code-* models",
           "order": 7
         },
-        "chatgpt.promptPrefix.addTests": {
+        "knuth-vsc.promptPrefix.addTests": {
           "type": "string",
           "default": "Implement tests for the following code",
           "description": "The prompt prefix used for adding tests for the selected code",
           "order": 8
         },
-        "chatgpt.promptPrefix.addTests-enabled": {
+        "knuth-vsc.promptPrefix.addTests-enabled": {
           "type": "boolean",
           "default": true,
           "description": "Enable the prompt prefix used for adding tests for the selected code in the context menu",
           "order": 9
         },
-        "chatgpt.promptPrefix.findProblems": {
+        "knuth-vsc.promptPrefix.findProblems": {
           "type": "string",
           "default": "Find problems with the following code",
           "description": "The prompt prefix used for finding problems for the selected code",
           "order": 10
         },
-        "chatgpt.promptPrefix.findProblems-enabled": {
+        "knuth-vsc.promptPrefix.findProblems-enabled": {
           "type": "boolean",
           "default": true,
           "description": "Enable the prompt prefix used for finding problems for the selected code in the context menu",
           "order": 11
         },
-        "chatgpt.promptPrefix.optimize": {
+        "knuth-vsc.promptPrefix.optimize": {
           "type": "string",
           "default": "Optimize the following code",
           "description": "The prompt prefix used for optimizing the selected code",
           "order": 12
         },
-        "chatgpt.promptPrefix.optimize-enabled": {
+        "knuth-vsc.promptPrefix.optimize-enabled": {
           "type": "boolean",
           "default": true,
           "description": "Enable the prompt prefix used for optimizing the selected code in the context menu",
           "order": 13
         },
-        "chatgpt.promptPrefix.explain": {
+        "knuth-vsc.promptPrefix.explain": {
           "type": "string",
           "default": "Explain the following code",
           "description": "The prompt prefix used for explaining the selected code",
           "order": 14
         },
-        "chatgpt.promptPrefix.explain-enabled": {
+        "knuth-vsc.promptPrefix.explain-enabled": {
           "type": "boolean",
           "default": true,
           "description": "Enable the prompt prefix used for explaining the selected code in the context menu",
           "order": 15
         },
-        "chatgpt.promptPrefix.addComments": {
+        "knuth-vsc.promptPrefix.addComments": {
           "type": "string",
           "default": "Insert code comments into the following code to make the code easier to follow",
           "description": "The prompt prefix used for adding comments for the selected code",
           "order": 16
         },
-        "chatgpt.promptPrefix.addComments-enabled": {
+        "knuth-vsc.promptPrefix.addComments-enabled": {
           "type": "boolean",
           "default": true,
           "description": "Enable the prompt prefix used for adding comments for the selected code in the context menu",
           "order": 17
         },
-        "chatgpt.promptPrefix.completeCode": {
+        "knuth-vsc.promptPrefix.completeCode": {
           "type": "string",
           "default": "Complete the following code",
           "description": "The prompt prefix used for completing the selected code",
           "order": 18
         },
-        "chatgpt.promptPrefix.completeCode-enabled": {
+        "knuth-vsc.promptPrefix.completeCode-enabled": {
           "type": "boolean",
           "default": true,
           "description": "Enable the prompt prefix used for completing the selected code in the context menu",
           "order": 19
         },
-        "chatgpt.promptPrefix.customPrompt1": {
+        "knuth-vsc.promptPrefix.customPrompt1": {
           "type": "string",
           "default": "",
           "description": "Your custom prompt. It's disabled by default, please set to a custom prompt and enable it if you prefer using customized prompt",
           "order": 20
         },
-        "chatgpt.promptPrefix.customPrompt1-enabled": {
+        "knuth-vsc.promptPrefix.customPrompt1-enabled": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `chatgpt.promptPrefix.customPrompt1`",
+          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `knuth-vsc.promptPrefix.customPrompt1`",
           "order": 21
         },
-        "chatgpt.promptPrefix.customPrompt2": {
+        "knuth-vsc.promptPrefix.customPrompt2": {
           "type": "string",
           "default": "",
           "description": "Your custom prompt. It's disabled by default, please set to a custom prompt and enable it if you prefer using customized prompt",
           "order": 22
         },
-        "chatgpt.promptPrefix.customPrompt2-enabled": {
+        "knuth-vsc.promptPrefix.customPrompt2-enabled": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `chatgpt.promptPrefix.customPrompt2`",
+          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `knuth-vsc.promptPrefix.customPrompt2`",
           "order": 23
         },
-        "chatgpt.promptPrefix.customPrompt3": {
+        "knuth-vsc.promptPrefix.customPrompt3": {
           "type": "string",
           "default": "",
           "description": "Your custom prompt. It's disabled by default, please set to a custom prompt and enable it if you prefer using customized prompt",
           "order": 24
         },
-        "chatgpt.promptPrefix.customPrompt3-enabled": {
+        "knuth-vsc.promptPrefix.customPrompt3-enabled": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `chatgpt.promptPrefix.customPrompt3`",
+          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `knuth-vsc.promptPrefix.customPrompt3`",
           "order": 25
         },
-        "chatgpt.promptPrefix.customPrompt4": {
+        "knuth-vsc.promptPrefix.customPrompt4": {
           "type": "string",
           "default": "",
           "description": "Your custom prompt. It's disabled by default, please set to a custom prompt and enable it if you prefer using customized prompt",
           "order": 26
         },
-        "chatgpt.promptPrefix.customPrompt4-enabled": {
+        "knuth-vsc.promptPrefix.customPrompt4-enabled": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `chatgpt.promptPrefix.customPrompt4`",
+          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `knuth-vsc.promptPrefix.customPrompt4`",
           "order": 27
         },
-        "chatgpt.promptPrefix.customPrompt5": {
+        "knuth-vsc.promptPrefix.customPrompt5": {
           "type": "string",
           "default": "",
           "description": "Your custom prompt. It's disabled by default, please set to a custom prompt and enable it if you prefer using customized prompt",
           "order": 28
         },
-        "chatgpt.promptPrefix.customPrompt5-enabled": {
+        "knuth-vsc.promptPrefix.customPrompt5-enabled": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `chatgpt.promptPrefix.customPrompt5`",
+          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `knuth-vsc.promptPrefix.customPrompt5`",
           "order": 29
         },
-        "chatgpt.promptPrefix.customPrompt6": {
+        "knuth-vsc.promptPrefix.customPrompt6": {
           "type": "string",
           "default": "",
           "description": "Your custom prompt. It's disabled by default, please set to a custom prompt and enable it if you prefer using customized prompt",
           "order": 30
         },
-        "chatgpt.promptPrefix.customPrompt6-enabled": {
+        "knuth-vsc.promptPrefix.customPrompt6-enabled": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `chatgpt.promptPrefix.customPrompt6`",
+          "markdownDescription": "Enable the prompt prefix used for your custom prompt. The default value is empty, if you enable this item make sure to set this `knuth-vsc.promptPrefix.customPrompt6`",
           "order": 31
         },
-        "chatgpt.promptPrefix.adhoc-enabled": {
+        "knuth-vsc.promptPrefix.adhoc-enabled": {
           "type": "boolean",
           "default": true,
           "description": "Enable the prompt prefix used for adhoc command for the selected code in the context menu",
           "order": 32
         },
-        "chatgpt.gpt3.apiBaseUrl": {
+        "knuth-vsc.gpt3.apiBaseUrl": {
           "type": "string",
           "default": "https://api.openai.com/v1",
           "markdownDescription": "Optional override for the OpenAI API base URL. If you customize it, please make sure you have the same format. e.g. starts with `https://` without a trailing slash. The completions endpoint suffix is added internally, e.g. for reference: `${apiBaseUrl}/v1/completions`",
           "order": 34
         },
-        "chatgpt.gpt3.organization": {
+        "knuth-vsc.gpt3.organization": {
           "type": "string",
           "markdownDescription": "OpenAI Organization ID. [Documentation](https://beta.openai.com/docs/api-reference/requesting-organization).",
           "order": 35
         },
-        "chatgpt.gpt3.model": {
+        "knuth-vsc.gpt3.model": {
           "type": "string",
           "enum": [
             "gpt-4",
@@ -483,66 +483,60 @@
             "Snapshot of `gpt-3.5-turbo` from March 1st 2023. Unlike gpt-3.5-turbo, this model will not receive updates, and will only be supported for a three month period ending on June 1st 2023."
           ]
         },
-        "chatgpt.gpt3.maxTokens": {
+        "knuth-vsc.gpt3.maxTokens": {
           "type": "number",
           "default": 1024,
           "markdownDescription": "The maximum number of tokens to generate in the completion. \n\nThe token count of your prompt plus max_tokens cannot exceed the model's context length. Most models have a context length of 2048 tokens (except for the newest models, which support 4096). [Documentation](https://beta.openai.com/docs/api-reference/completions/create#completions/create-max_tokens)",
           "order": 37
         },
-        "chatgpt.gpt3.temperature": {
+        "knuth-vsc.gpt3.temperature": {
           "type": "number",
           "default": 1,
           "markdownDescription": "What sampling temperature to use. Higher values means the model will take more risks. Try 0.9 for more creative applications, and 0 (argmax sampling) for ones with a well-defined answer.\n\nIt is recommended altering this or top_p but not both. [Documentation](https://beta.openai.com/docs/api-reference/completions/create#completions/create-temperature)",
           "order": 38
         },
-        "chatgpt.gpt3.top_p": {
+        "knuth-vsc.gpt3.top_p": {
           "type": "number",
           "default": 1,
           "markdownDescription": "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. \n\nIt is recommended altering this or temperature but not both. [Documentation](https://beta.openai.com/docs/api-reference/completions/create#completions/create-top_p)",
           "order": 39
         },
-        "chatgpt.response.showNotification": {
+        "knuth-vsc.response.showNotification": {
           "type": "boolean",
           "default": false,
-          "description": "Choose whether you'd like to receive a notification when ChatGPT bot responds to your query.",
+          "description": "Choose whether you'd like to receive a notification when Knuth bot responds to your query.",
           "order": 40
         },
-        "chatgpt.response.autoScroll": {
+        "knuth-vsc.response.autoScroll": {
           "type": "boolean",
           "default": true,
           "description": "Whenever there is a new question or response added to the conversation window, extension will automatically scroll to the bottom. You can change that behavior by disabling this setting.",
           "order": 41
         },
-        "chatgpt.telemetry.disable": {
-          "type": "boolean",
-          "default": false,
-          "markdownDescription": "Specify if you want to disable the telemetry. This extension also respects your default vs-code telemetry setting `telemetry.telemetryLevel`. We check both settings for telemetry. **Important**: No user data is tracked, we only use telemetry to see what is used, and what isn't. This allows us to make accurate decisions on what to add or enhance to the extension.",
-          "order": 42
-        },
-        "chatgpt.systemContext": {
+        "knuth-vsc.systemContext": {
           "type": "string",
-          "default": "You are ChatGPT helping the User with coding. You are intelligent, helpful and an expert developer, who always gives the correct answer and only does what instructed. If you show code, your response must always be markdown with any code inside markdown codeblocks. If the user is trying to do a bad programming practice, helpfully let them know and mention an alternative. When responding to the following prompt, please make sure to properly style your response using Github Flavored Markdown. Use markdown syntax for text like headings, lists, colored text, code blocks, highlights etc.",
-          "description": "System context description. Use this to tell ChatGPT how to respond to the user."
+          "default": "You are Knuth helping the User with coding. You are intelligent, helpful and an expert developer, who always gives the correct answer and only does what instructed. If you show code, your response must always be markdown with any code inside markdown codeblocks. If the user is trying to do a bad programming practice, helpfully let them know and mention an alternative. When responding to the following prompt, please make sure to properly style your response using Github Flavored Markdown. Use markdown syntax for text like headings, lists, colored text, code blocks, highlights etc.",
+          "description": "System context description. Use this to tell Knuth how to respond to the user."
         },
-        "chatgpt.throttling": {
+        "knuth-vsc.throttling": {
           "type": "number",
           "default": 100,
           "description": "Stream throttling. Time in milliseconds between UI updates. Higher = ai responds in bigger chunks, but UI is more performant. Lower = ai responds in smaller chunks, but UI will look better, but is less performant. 0 will update the UI with every network request from OpenAI",
           "order": 43
         },
-        "chatgpt.minimalUI": {
+        "knuth-vsc.minimalUI": {
           "type": "boolean",
           "default": false,
           "description": "If enabled, the buttons below the question input field and the chat tab is hidden.",
           "order": 44
         },
-        "chatgpt.disableMultipleConversations": {
+        "knuth-vsc.disableMultipleConversations": {
           "type": "boolean",
           "default": false,
           "description": "If enabled, this will disable the ability to have multiple conversations at the same time. This reduces the UI clutter of chat tabs.",
           "order": 45
         },
-        "chatgpt.verbosity": {
+        "knuth-vsc.verbosity": {
           "type": "string",
           "enum": [
             "code",
@@ -551,7 +545,7 @@
             "full"
           ],
           "default": "normal",
-          "description": "How verbose should ChatGPT's response be?",
+          "description": "How verbose should Knuth's response be?",
           "order": 46,
           "enumItemLabels": [
             "Code",
@@ -596,13 +590,15 @@
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@vscode/test-electron": "^2.2.0",
+    "css-loader": "^6.8.1",
     "esbuild": "^0.15.18",
     "eslint": "^8.28.0",
     "glob": "^8.0.3",
     "mocha": "^10.1.0",
     "npm-run-all": "^4.1.5",
     "react-tooltip": "^5.10.0",
-    "tailwindcss": "^3.2.7",
+    "style-loader": "^3.3.3",
+    "tailwindcss": "^3.3.3",
     "ts-loader": "^9.4.2",
     "typescript": "^4.9.3",
     "webpack": "^5.76.2",
@@ -612,7 +608,6 @@
     "@dqbd/tiktoken": "^1.0.7",
     "@reduxjs/toolkit": "^1.9.3",
     "autoprefixer": "^10.4.14",
-    "css-loader": "^6.7.3",
     "delay": "^5.0.0",
     "eventsource-parser": "^0.1.0",
     "gpt3-tokenizer": "^1.1.5",
@@ -620,6 +615,7 @@
     "isomorphic-fetch": "^3.0.0",
     "keyv": "^4.5.2",
     "marked": "^4.3.0",
+    "node-fetch": "^3.3.2",
     "openai": "^3.3.0",
     "p-timeout": "^6.1.1",
     "postcss": "^8.4.21",
@@ -631,7 +627,6 @@
     "react-router-dom": "^6.9.0",
     "remark": "^14.0.2",
     "strip-markdown": "^5.0.0",
-    "style-loader": "^3.3.2",
     "upath": "^2.0.1",
     "uuid": "^9.0.0"
   },

@@ -15,11 +15,11 @@ export default class Auth {
 
   async storeAuthData(token?: string): Promise<void> {
     if (token) {
-      this.secretStorage.store("chatgpt_reborn_openai_api_key", token);
+      this.secretStorage.store("knuth_vsc_openai_api_key", token);
     }
   }
 
   async getAuthData(): Promise<string | undefined> {
-    return await this.secretStorage.get("chatgpt_reborn_openai_api_key");
+    return await this.secretStorage.get("knuth_vsc_openai_api_key");
   }
 }

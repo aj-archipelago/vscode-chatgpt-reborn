@@ -52,22 +52,22 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 	 */
 	private leftOverMessage?: any;
 	constructor(private context: vscode.ExtensionContext) {
-		this.subscribeToResponse = vscode.workspace.getConfiguration("chatgpt").get("response.showNotification") || false;
-		this.model = vscode.workspace.getConfiguration("chatgpt").get("gpt3.model") as string;
-		this.systemContext = vscode.workspace.getConfiguration('chatgpt').get('systemContext') ?? vscode.workspace.getConfiguration('chatgpt').get('systemContext.default') ?? '';
-		this.throttling = vscode.workspace.getConfiguration("chatgpt").get("throttling") || 100;
+		this.subscribeToResponse = vscode.workspace.getConfiguration("knuth-vsc").get("response.showNotification") || false;
+		this.model = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.model") as string;
+		this.systemContext = vscode.workspace.getConfiguration('knuth-vsc').get('systemContext') ?? vscode.workspace.getConfiguration('knuth-vsc').get('systemContext.default') ?? '';
+		this.throttling = vscode.workspace.getConfiguration("knuth-vsc").get("throttling") || 100;
 
 		// Secret storage
 		Auth.init(context);
 		this.authStore = Auth.instance;
-		vscode.commands.registerCommand("chatgptReborn.setOpenAIApiKey", async (apiKey: string) => {
+		vscode.commands.registerCommand("knuth_vsc.setOpenAIApiKey", async (apiKey: string) => {
 			if (this.authStore) {
 				await this.authStore.storeAuthData(apiKey);
 			} else {
 				console.error("Auth store not initialized");
 			}
 		});
-		vscode.commands.registerCommand("chatgptReborn.getOpenAIApiKey", async () => {
+		vscode.commands.registerCommand("knuth_vsc.getOpenAIApiKey", async () => {
 			if (this.authStore) {
 				const tokenOutput = await this.authStore.getAuthData();
 				return tokenOutput;
@@ -77,84 +77,84 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 			}
 		});
 
-		// Check config settings for "chatgpt.gpt3.apiKey", if it exists, move it to the secret storage and remove it from the config
-		const apiKey = vscode.workspace.getConfiguration("chatgpt").get("gpt3.apiKey") as string;
+		// Check config settings for "knuth-vsc.gpt3.apiKey", if it exists, move it to the secret storage and remove it from the config
+		const apiKey = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.apiKey") as string;
 		if (apiKey) {
 			this.authStore.storeAuthData(apiKey);
-			vscode.workspace.getConfiguration("chatgpt").update("gpt3.apiKey", undefined, true);
+			vscode.workspace.getConfiguration("knuth-vsc").update("gpt3.apiKey", undefined, true);
 		}
 
-		// Check config settings for "chatgpt.gpt3.apiBaseUrl", if it is set to "https://api.openai.com", change it to "https://api.openai.com/v1"
-		const baseUrl = vscode.workspace.getConfiguration("chatgpt").get("gpt3.apiBaseUrl") as string;
+		// Check config settings for "knuth-vsc.gpt3.apiBaseUrl", if it is set to "https://api.openai.com", change it to "https://api.openai.com/v1"
+		const baseUrl = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.apiBaseUrl") as string;
 		if (baseUrl === "https://api.openai.com") {
-			vscode.workspace.getConfiguration("chatgpt").update("gpt3.apiBaseUrl", "https://api.openai.com/v1", true);
+			vscode.workspace.getConfiguration("knuth-vsc").update("gpt3.apiBaseUrl", "https://api.openai.com/v1", true);
 		}
 
 		// If apiBaseUrl is in old "https://api.openai.com" format, update to format "https://api.openai.com/v1"
 		// This update puts "apiBaseUrl" in line with the "basePath" format used by the OpenAI's official SDK
-		if (vscode.workspace.getConfiguration("chatgpt").get("gpt3.apiBaseUrl") === "https://api.openai.com") {
-			vscode.workspace.getConfiguration("chatgpt").update("gpt3.apiBaseUrl", "https://api.openai.com/v1", true);
+		if (vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.apiBaseUrl") === "https://api.openai.com") {
+			vscode.workspace.getConfiguration("knuth-vsc").update("gpt3.apiBaseUrl", "https://api.openai.com/v1", true);
 		}
 
-		this._maxTokens = vscode.workspace.getConfiguration("chatgpt").get("gpt3.maxTokens") as number;
-		this._temperature = vscode.workspace.getConfiguration("chatgpt").get("gpt3.temperature") as number;
-		this._topP = vscode.workspace.getConfiguration("chatgpt").get("gpt3.top_p") as number;
+		this._maxTokens = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.maxTokens") as number;
+		this._temperature = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.temperature") as number;
+		this._topP = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.top_p") as number;
 
 		// Initialize the API
 		this.authStore.getAuthData().then((apiKey) => {
 			this.api = new ApiProvider(
 				apiKey ?? "",
 				{
-					organizationId: vscode.workspace.getConfiguration("chatgpt").get("gpt3.organization") as string,
-					apiBaseUrl: vscode.workspace.getConfiguration("chatgpt").get("gpt3.apiBaseUrl") as string,
-					maxTokens: vscode.workspace.getConfiguration("chatgpt").get("gpt3.maxTokens") as number,
-					temperature: vscode.workspace.getConfiguration("chatgpt").get("gpt3.temperature") as number,
-					topP: vscode.workspace.getConfiguration("chatgpt").get("gpt3.top_p") as number,
+					organizationId: vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.organization") as string,
+					apiBaseUrl: vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.apiBaseUrl") as string,
+					maxTokens: vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.maxTokens") as number,
+					temperature: vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.temperature") as number,
+					topP: vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.top_p") as number,
 				});
 		});
 
 		// Update data members when the config settings change
 		vscode.workspace.onDidChangeConfiguration((e) => {
 			// Model
-			if (e.affectsConfiguration("chatgpt.gpt3.model")) {
-				this.model = vscode.workspace.getConfiguration("chatgpt").get("gpt3.model") as string;
+			if (e.affectsConfiguration("knuth-vsc.gpt3.model")) {
+				this.model = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.model") as string;
 			}
 			// System Context
-			if (e.affectsConfiguration("chatgpt.systemContext")) {
-				this.systemContext = vscode.workspace.getConfiguration('chatgpt').get('systemContext') ?? vscode.workspace.getConfiguration('chatgpt').get('systemContext.default') ?? '';
+			if (e.affectsConfiguration("knuth-vsc.systemContext")) {
+				this.systemContext = vscode.workspace.getConfiguration('knuth-vsc').get('systemContext') ?? vscode.workspace.getConfiguration('knuth-vsc').get('systemContext.default') ?? '';
 			}
 			// Throttling
-			if (e.affectsConfiguration("chatgpt.throttling")) {
-				this.throttling = vscode.workspace.getConfiguration("chatgpt").get("throttling") ?? 100;
+			if (e.affectsConfiguration("knuth-vsc.throttling")) {
+				this.throttling = vscode.workspace.getConfiguration("knuth-vsc").get("throttling") ?? 100;
 			}
 			// organization
-			if (e.affectsConfiguration("chatgpt.gpt3.organization")) {
-				this.api.updateOrganizationId(vscode.workspace.getConfiguration("chatgpt").get("gpt3.organization") ?? "");
+			if (e.affectsConfiguration("knuth-vsc.gpt3.organization")) {
+				this.api.updateOrganizationId(vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.organization") ?? "");
 			}
 			// Api Base Url
-			if (e.affectsConfiguration("chatgpt.gpt3.apiBaseUrl")) {
-				this.api.updateApiBaseUrl(vscode.workspace.getConfiguration("chatgpt").get("gpt3.apiBaseUrl") ?? "");
+			if (e.affectsConfiguration("knuth-vsc.gpt3.apiBaseUrl")) {
+				this.api.updateApiBaseUrl(vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.apiBaseUrl") ?? "");
 			}
 			// maxTokens
-			if (e.affectsConfiguration("chatgpt.gpt3.maxTokens")) {
-				this.api.maxTokens = this._maxTokens = vscode.workspace.getConfiguration("chatgpt").get("gpt3.maxTokens") as number ?? 2048;
+			if (e.affectsConfiguration("knuth-vsc.gpt3.maxTokens")) {
+				this.api.maxTokens = this._maxTokens = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.maxTokens") as number ?? 2048;
 			}
 			// temperature
-			if (e.affectsConfiguration("chatgpt.gpt3.temperature")) {
-				this.api.temperature = this._temperature = vscode.workspace.getConfiguration("chatgpt").get("gpt3.temperature") as number ?? 0.9;
+			if (e.affectsConfiguration("knuth-vsc.gpt3.temperature")) {
+				this.api.temperature = this._temperature = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.temperature") as number ?? 0.9;
 			}
 			// topP
-			if (e.affectsConfiguration("chatgpt.gpt3.top_p")) {
-				this.api.topP = this._topP = vscode.workspace.getConfiguration("chatgpt").get("gpt3.top_p") as number ?? 1;
+			if (e.affectsConfiguration("knuth-vsc.gpt3.top_p")) {
+				this.api.topP = this._topP = vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.top_p") as number ?? 1;
 			}
 		});
 
 		// if any of the extension settings change, send a message to the webview for the "settingsUpdate" event
 		vscode.workspace.onDidChangeConfiguration((e) => {
-			if (e.affectsConfiguration("chatgpt")) {
+			if (e.affectsConfiguration("knuth-vsc")) {
 				this.sendMessage({
 					type: "settingsUpdate",
-					value: vscode.workspace.getConfiguration("chatgpt")
+					value: vscode.workspace.getConfiguration("knuth-vsc")
 				});
 			}
 		});
@@ -176,7 +176,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 	public async updateApiKeyState(apiKey: string = '') {
 		if (apiKey) {
 			// Run the setOpenAIApiKey command
-			await vscode.commands.executeCommand("chatgptReborn.setOpenAIApiKey", apiKey);
+			await vscode.commands.executeCommand("knuth_vsc.setOpenAIApiKey", apiKey);
 		}
 
 		let { valid, models } = await this.isGoodApiKey(apiKey);
@@ -201,7 +201,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 	// reset the API key to the default value
 	public async resetApiKey() {
-		await vscode.commands.executeCommand("chatgptReborn.setOpenAIApiKey", "-");
+		await vscode.commands.executeCommand("knuth_vsc.setOpenAIApiKey", "-");
 		this.updateApiKeyState();
 	}
 
@@ -250,7 +250,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					break;
 				case 'setModel':
 					this.model = data.value;
-					await vscode.workspace.getConfiguration("chatgpt").update("gpt3.model", data.value, vscode.ConfigurationTarget.Global);
+					await vscode.workspace.getConfiguration("knuth-vsc").update("gpt3.model", data.value, vscode.ConfigurationTarget.Global);
 					this.logEvent("model-changed to " + data.value);
 					break;
 				case 'openNew':
@@ -268,12 +268,12 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					this.logEvent("gpt3-cleared");
 					break;
 				case 'openSettings':
-					vscode.commands.executeCommand('workbench.action.openSettings', "@ext:chris-hayes.chatgpt-reborn chatgpt.");
+					vscode.commands.executeCommand('workbench.action.openSettings', "@ext:aj-archipelago.knuth-vsc knuth-vsc.");
 
 					this.logEvent("settings-opened");
 					break;
 				case 'openSettingsPrompt':
-					vscode.commands.executeCommand('workbench.action.openSettings', "@ext:chris-hayes.chatgpt-reborn promptPrefix");
+					vscode.commands.executeCommand('workbench.action.openSettings', "@ext:aj-archipelago.knuth-vsc promptPrefix");
 
 					this.logEvent("settings-prompt-opened");
 					break;
@@ -287,7 +287,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 				case "getSettings":
 					this.sendMessage({
 						type: "settingsUpdate",
-						value: vscode.workspace.getConfiguration("chatgpt")
+						value: vscode.workspace.getConfiguration("knuth-vsc")
 					});
 					break;
 				case "exportToMarkdown":
@@ -322,7 +322,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					break;
 				case "setVerbosity":
 					const verbosity = data?.value ?? Verbosity.normal;
-					vscode.workspace.getConfiguration("chatgpt").update("verbosity", verbosity, vscode.ConfigurationTarget.Global);
+					vscode.workspace.getConfiguration("knuth-vsc").update("verbosity", verbosity, vscode.ConfigurationTarget.Global);
 					break;
 				case "setCurrentConversation":
 					this.currentConversation = data.conversation;
@@ -404,7 +404,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 	}
 	private convertMessagesToMarkdown(conversation: Conversation): string {
 		let markdown = conversation.messages.reduce((accumulator: string, message: Message) => {
-			const role = message.role === Role.user ? "You" : "ChatGPT";
+			const role = message.role === Role.user ? "You" : "Knuth";
 			const isError = message.isError ? "ERROR: " : "";
 			const content = message.rawContent ?? message.content;
 
@@ -443,7 +443,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 	}
 
 	private async getApiKey(): Promise<string> {
-		return await vscode.commands.executeCommand('chatgptReborn.getOpenAIApiKey') ?? '';
+		return await vscode.commands.executeCommand('knuth_vsc.getOpenAIApiKey') ?? '';
 	}
 
 	async isGoodApiKey(apiKey: string = ''): Promise<{
@@ -452,7 +452,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 	}> {
 		if (!apiKey) {
 			// Get OpenAI API key from secret store
-			apiKey = await vscode.commands.executeCommand('chatgptReborn.getOpenAIApiKey') as string;
+			apiKey = await vscode.commands.executeCommand('knuth_vsc.getOpenAIApiKey') as string;
 		}
 
 		// If empty, return false
@@ -467,13 +467,13 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 		});
 
 		// if the organization id is set in settings, use it
-		const organizationId = await vscode.workspace.getConfiguration("chatgpt").get("organizationId") as string;
+		const organizationId = await vscode.workspace.getConfiguration("knuth-vsc").get("organizationId") as string;
 		if (organizationId) {
 			configuration.organization = organizationId;
 		}
 
 		// if the api base url is set in settings, use it
-		const apiBaseUrl = await vscode.workspace.getConfiguration("chatgpt").get("gpt3.apiBaseUrl") as string;
+		const apiBaseUrl = await vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.apiBaseUrl") as string;
 		if (apiBaseUrl) {
 			configuration.basePath = apiBaseUrl;
 		}
@@ -496,20 +496,20 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 	async getModels(): Promise<any[]> {
 		// Get OpenAI API key from secret store
-		const apiKey = await vscode.commands.executeCommand('chatgptReborn.getOpenAIApiKey') as string;
+		const apiKey = await vscode.commands.executeCommand('knuth_vsc.getOpenAIApiKey') as string;
 
 		const configuration = new Configuration({
 			apiKey,
 		});
 
 		// if the organization id is set in settings, use it
-		const organizationId = await vscode.workspace.getConfiguration("chatgpt").get("organizationId") as string;
+		const organizationId = await vscode.workspace.getConfiguration("knuth-vsc").get("organizationId") as string;
 		if (organizationId) {
 			configuration.organization = organizationId;
 		}
 
 		// if the api base url is set in settings, use it
-		const apiBaseUrl = await vscode.workspace.getConfiguration("chatgpt").get("gpt3.apiBaseUrl") as string;
+		const apiBaseUrl = await vscode.workspace.getConfiguration("knuth-vsc").get("gpt3.apiBaseUrl") as string;
 		if (apiBaseUrl) {
 			configuration.basePath = apiBaseUrl;
 		}
@@ -554,7 +554,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 		}
 
 		if (code !== null && code !== undefined) {
-			// If the lanague is not specified, get it from the active editor's language
+			// If the language is not specified, get it from the active editor's language
 			if (!language) {
 				const editor = vscode.window.activeTextEditor;
 				if (editor) {
@@ -589,7 +589,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 
 	public async sendApiRequest(prompt: string, options: ApiRequestOptions) {
-		this.logEvent("api-request-sent", { "chatgpt.command": options.command, "chatgpt.hasCode": String(!!options.code) });
+		this.logEvent("api-request-sent", { "knuth-vsc.command": options.command, "knuth-vsc.hasCode": String(!!options.code) });
 		const responseInMarkdown = !this.isCodexModel;
 
 		// 1. First check if the conversation has any messages, if not add the system message
@@ -641,7 +641,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 		// If the ChatGPT view is not in focus/visible; focus on it to render Q&A
 		if (this.webView === null) {
-			vscode.commands.executeCommand('vscode-chatgpt.view.focus');
+			vscode.commands.executeCommand('knuth-vsc.view.focus');
 		} else {
 			this.webView?.show?.(true);
 		}
@@ -727,7 +727,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 			if (hasContinuation) {
 				message.content = message.content + " \r\n ```\r\n";
-				vscode.window.showInformationMessage("It looks like ChatGPT didn't complete their answer for your coding question. You can ask it to continue and combine the answers.", "Continue and combine answers")
+				vscode.window.showInformationMessage("It looks like Knuth didn't complete their answer for your coding question. You can ask it to continue and combine the answers.", "Continue and combine answers")
 					.then(async (choice) => {
 						if (choice === "Continue and combine answers") {
 							this.sendApiRequest("Continue", {
@@ -740,8 +740,8 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 			}
 
 			if (this.subscribeToResponse) {
-				vscode.window.showInformationMessage("ChatGPT responded to your question.", "Open conversation").then(async () => {
-					await vscode.commands.executeCommand('vscode-chatgpt.view.focus');
+				vscode.window.showInformationMessage("Knuth responded to your question.", "Open conversation").then(async () => {
+					await vscode.commands.executeCommand('knuth-vsc.view.focus');
 				});
 			}
 		} catch (error: any) {
@@ -759,7 +759,7 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 					message = `400 Bad Request\n\nYour model: '${this.model}' may be incompatible or one of your parameters is unknown. Reset your settings to default.`;
 					break;
 				case 401:
-					message = '401 Unauthorized\n\nMake sure you are properly signed in. If you are using Browser Auto-login method, make sure the browser is open (You could refresh the browser tab manually if you face any issues, too). If you stored your API key in settings.json, make sure it is accurate. If you stored API key in session, you can reset it with `ChatGPT: Reset session` command. Potential reasons: \n- 1.Invalid Authentication\n- 2.Incorrect API key provided.\n- 3.Incorrect Organization provided. \n See https://platform.openai.com/docs/guides/error-codes for more details.';
+					message = '401 Unauthorized\n\nMake sure you are properly signed in. If you are using Browser Auto-login method, make sure the browser is open (You could refresh the browser tab manually if you face any issues, too). If you stored your API key in settings.json, make sure it is accurate. If you stored API key in session, you can reset it with `Knuth: Reset session` command. Potential reasons: \n- 1.Invalid Authentication\n- 2.Incorrect API key provided.\n- 3.Incorrect Organization provided. \n See https://platform.openai.com/docs/guides/error-codes for more details.';
 					break;
 				case 403:
 					message = '403 Forbidden\n\nYour token has expired. Please try authenticating again.';
@@ -820,29 +820,25 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 
 
 	private logEvent(eventName: string, properties?: {}): void {
-		// You can initialize your telemetry reporter and consume it here - *replaced with console.debug to prevent unwanted telemetry logs
-		// this.reporter?.sendTelemetryEvent(eventName, { "chatgpt.loginMethod": this.loginMethod!, "chatgpt.authType": this.authType!, "chatgpt.model": this.model || "unknown", ...properties }, { "chatgpt.questionCounter": this.questionCounter });
 		console.debug(eventName, {
 			// eslint-disable-next-line @typescript-eslint/naming-convention
-			"chatgpt.model": this.model || "unknown", ...properties
+			"knuth-vsc.model": this.model || "unknown", ...properties
 		}, {
-			"chatgpt.properties": properties,
+			"knuth-vsc.properties": properties,
 		});
 	}
 
 	private logError(eventName: string): void {
-		// You can initialize your telemetry reporter and consume it here - *replaced with console.error to prevent unwanted telemetry logs
-		// this.reporter?.sendTelemetryErrorEvent(eventName, { "chatgpt.loginMethod": this.loginMethod!, "chatgpt.authType": this.authType!, "chatgpt.model": this.model || "unknown" }, { "chatgpt.questionCounter": this.questionCounter });
 		console.error(eventName, {
 			// eslint-disable-next-line @typescript-eslint/naming-convention
-			"chatgpt.model": this.model || "unknown"
+			"knuth-vsc.model": this.model || "unknown"
 		});
 	}
 
 	private getWebviewHtml(webview: vscode.Webview): string {
-		const vendorHighlightCss = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'media', 'vendor', 'highlight.min.css'));
-		const vendorHighlightJs = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'media', 'vendor', 'highlight.min.js'));
-		const vendorMarkedJs = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'media', 'vendor', 'marked.min.js'));
+		//const vendorHighlightCss = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'media', 'vendor', 'highlight.min.css'));
+		//const vendorHighlightJs = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'media', 'vendor', 'highlight.min.js'));
+		//const vendorMarkedJs = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'media', 'vendor', 'marked.min.js'));
 		// React code bundled by webpack, this includes styling
 		const webpackScript = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'out', 'webview.bundle.js'));
 
@@ -857,9 +853,6 @@ export default class ChatGptViewProvider implements vscode.WebviewViewProvider {
 			<body class="overflow-hidden">
 				<div id="root" class="flex flex-col h-screen"></div>
 				<script nonce="${nonce}" src="${webpackScript}"></script>
-				<script src="${vendorHighlightJs}" defer async></script>
-				<script src="${vendorMarkedJs}" defer async></script>
-				<link href="${vendorHighlightCss}" rel="stylesheet">
 			</body>
 			</html>`;
 	}

@@ -336,7 +336,7 @@ export default function Layout({ vscode }: { vscode: any }) {
       case "addError":
         const messageValue =
           data.value ||
-          "An error occurred. If this issue persists please clear your session token with `ChatGPT: Reset session` command and/or restart your Visual Studio Code. If you still experience issues, it may be due to an OpenAI outage. Take a look at https://status.openai.com to see if there's an OpenAI outage.";
+          "An error occurred. If this issue persists please clear your session token with `Knuth: Reset session` command and/or restart your Visual Studio Code. If you still experience issues, it may be due to an OpenAI outage. Take a look at https://status.openai.com to see if there's an OpenAI outage.";
 
         const errorMessage = {
           id: data.id,

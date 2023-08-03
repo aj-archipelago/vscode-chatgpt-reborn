@@ -1,3 +1,5 @@
+import hljs from "highlight.js";
+import "highlight.js/styles/github-dark.css";
 import React, { useEffect } from "react";
 import { Tooltip } from "react-tooltip";
 import { useAppSelector } from "../hooks";
@@ -27,12 +29,29 @@ export default ({
   const codeRef = React.useRef<HTMLPreElement>(null);
   const [expanded, setExpanded] = React.useState(false);
 
+  const decodeHtml = (html: string) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.documentElement.textContent || "";
+  };
+
+  const getCodeInnerHtml = (code: string) => {
+    let highlightedCode = code
+      .replace(/<pre><code[^>]*>/, "")
+      .replace(/<\/code><\/pre>/, "");
+    highlightedCode = language
+      ? hljs.highlight(decodeHtml(highlightedCode), { language }).value
+      : hljs.highlightAuto(decodeHtml(highlightedCode)).value;
+    //console.log(code);
+    //console.log(highlightedCode);
+    return highlightedCode;
+  };
+
   useEffect(() => {
     setExpanded(!startCollapsed);
   }, []);
 
   useEffect(() => {
-    let textContent = codeRef.current?.innerText || "";
+    let textContent = codeRef.current?.textContent || "";
 
     // if it ends with a newline, remove it
     if (textContent.endsWith("\n")) {
@@ -43,7 +62,9 @@ export default ({
 
     // set language based on hljs class
     const detectedLanguage = code.match(/language-(\w+)/)?.[1] || "";
-    setLanguage(detectedLanguage);
+    if (language !== detectedLanguage) {
+      setLanguage(detectedLanguage);
+    }
   }, [code]);
 
   return (
@@ -154,9 +175,7 @@ export default ({
         `}
         ref={codeRef}
         dangerouslySetInnerHTML={{
-          __html: code
-            .replace(/<pre><code[^>]*>/, "")
-            .replace(/<\/code><\/pre>/, ""),
+          __html: getCodeInnerHtml(code),
         }}
       />
     </pre>

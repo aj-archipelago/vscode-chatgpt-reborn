@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Tooltip } from "react-tooltip";
 import CodeBlock from "../components/CodeBlock";
 import Icon from "../components/Icon";
@@ -50,33 +50,42 @@ export default function Chat({
     }
   }, [conversation.messages]);
 
-  // if the user scrolls up while in progress, disable autoscroll
+  const debounce = <F extends (...args: any[]) => any>(
+    func: F,
+    wait: number
+  ): ((...args: Parameters<F>) => void) => {
+    let timeoutID: NodeJS.Timeout;
+
+    return (...args: Parameters<F>): void => {
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => func(...args), wait);
+    };
+  };
+
+  const lastScrollTop = useRef(0);
+
   const handleScroll = () => {
     if (conversationListRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } =
-        conversationListRef.current;
-      if (scrollTop < scrollHeight - clientHeight && conversation.autoscroll) {
-        // disable autoscroll if the user scrolls up
-        dispatch(
-          setAutoscroll({
-            conversationId: conversation.id,
-            autoscroll: false,
-          })
-        );
-      } else if (
-        !conversation.autoscroll &&
-        scrollTop >= scrollHeight - clientHeight
-      ) {
-        // re-enable autoscroll if the user scrolls to the bottom
-        dispatch(
-          setAutoscroll({
-            conversationId: conversation.id,
-            autoscroll: true,
-          })
-        );
+      const { scrollTop } = conversationListRef.current;
+      if (scrollTop !== 0) {
+        const scrollDirection = scrollTop - lastScrollTop.current;
+        if (conversation.autoscroll && scrollDirection < 0) {
+          dispatch(
+            setAutoscroll({
+              conversationId: conversation.id,
+              autoscroll: false,
+            })
+          );
+        }
       }
+
+      // update the last scroll position
+      lastScrollTop.current = scrollTop;
     }
   };
+
+  // function to turn off autoscroll if the user scrolls up
+  const debouncedHandleScroll = debounce(handleScroll, 50);
 
   return (
     <>
@@ -110,7 +119,7 @@ export default function Chat({
       <div
         className="flex-1 overflow-y-auto"
         ref={conversationListRef}
-        onScroll={handleScroll}
+        onScroll={debouncedHandleScroll}
       >
         <div
           className={`flex flex-col 
@@ -125,7 +134,7 @@ export default function Chat({
             .map((message: Message, index: number) => {
               return (
                 <div
-                  className={`w-full flex flex-col gap-y-4 p-4 self-end question-element-ext relative
+                  className={`w-full flex flex-col gap-y-small p-4 self-end question-element-ext relative
                   ${message.role === Role.user ? "bg-input" : "bg-sidebar"}
                 `}
                   key={message.id}
@@ -140,7 +149,7 @@ export default function Chat({
                       ) : (
                         <>
                           <Icon icon="ai" className="w-6 h-6 mr-2" />
-                          {t?.chat?.ai ?? "ChatGPT"}
+                          {t?.chat?.ai ?? "Knuth"}
                         </>
                       )}
                     </h2>
